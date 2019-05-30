@@ -1,0 +1,11 @@
+{
+  "@class" : "org.apereo.cas.support.oauth.services.OAuthRegisteredService",
+  "clientId": "suresec",
+  "clientSecret": "123456",
+  "serviceId" : "^(https|http|imaps)://www.suresec.net",
+  "name" : "suresec",
+  "id" : 1003,
+  "attributeReleasePolicy" : {
+    "@class" :"org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
+  }
+}

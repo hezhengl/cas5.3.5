@@ -1,0 +1,11 @@
+{
+  "@class" : "org.apereo.cas.support.oauth.services.OAuthRegisteredService",
+  "clientId": "baidu",
+  "clientSecret": "123456",
+  "serviceId" : "^(https|http|imaps)://www.baidu.com",
+  "name" : "baidu",
+  "id" : 1002,
+  "attributeReleasePolicy" : {
+    "@class" :"org.apereo.cas.services.ReturnAllAttributeReleasePolicy"
+  }
+}
