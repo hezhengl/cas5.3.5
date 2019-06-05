@@ -6,7 +6,7 @@
     </Properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %p [%c] - &lt;%m&gt;%n"/>
+            <PatternLayout pattern="[%c] - &lt;%m&gt;%n"/>
         </Console>
 
         <RollingFile name="file" fileName="${baseDir}/cas.log" append="true"
@@ -90,6 +90,14 @@
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
+        <AsyncLogger name="org.apereo.cas.ticket.registry" level="debug" additivity="false" includeLocation="true">
+            <!-- <AppenderRef ref="casConsole"/> -->
+            <AppenderRef ref="casFile"/>
+        </AsyncLogger>
+        <AsyncLogger name="org.apereo.cas.services.AbstractServicesManager" level="debug" additivity="false" includeLocation="true">
+            <!-- <AppenderRef ref="casConsole"/> -->
+            <AppenderRef ref="casFile"/>
+        </AsyncLogger>
         <AsyncLogger name="org.apereo" level="debug" additivity="false" includeLocation="true">
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
@@ -150,7 +158,7 @@
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
         <AsyncLogger name="org.springframework.orm.jpa" level="debug" additivity="false">
-            <AppenderRef ref="casConsole"/>
+            <!-- <AppenderRef ref="casConsole"/> -->
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
         <AsyncLogger name="org.springframework.scheduling" level="info" additivity="false">
@@ -215,6 +223,7 @@
             <AppenderRef ref="casPerf"/>
         </AsyncLogger>
         <AsyncLogger name="org.apereo.cas.web.flow" level="info" additivity="true" includeLocation="true">
+            <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
         <AsyncLogger name="org.apereo.inspektr.audit.support" level="info" includeLocation="true">
