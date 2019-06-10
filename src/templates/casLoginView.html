@@ -14,6 +14,12 @@
 <main role="main" class="container mt-3 mb-3">
     <div layout:fragment="content" class="row">
         <div class="col-md">
+        	<!-- 关于thymeleaf th:replace th:include th:insert 的区别 -->
+			<!-- th:insert   ：保留自己的主标签，保留th:fragment的主标签。 -->
+			<!-- th:replace ：不要自己的主标签，保留th:fragment的主标签。 -->
+			<!-- th:include ：保留自己的主标签，不要th:fragment的主标签。（官方3.0后不推荐） -->
+			
+			<!-- 引入fragments/loginform页面的loginform标签的内容 -->
             <div th:replace="fragments/loginform :: loginform"><a href="fragments/loginform.html">Login Form goes
                 here</a></div>
         </div>

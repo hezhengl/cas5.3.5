@@ -74,9 +74,11 @@ public class InitialAuthenticationAttemptWebflowEventResolver extends AbstractCa
     @Override
     public Set<Event> resolveInternal(final RequestContext context) {
         try {
+        	System.out.println("点击登录后我在这里进行认证啊>.<");
             final Credential credential = getCredentialFromContext(context);
             final Service service = WebUtils.getService(context);
             if (credential != null) {
+            	/*这里完成用户信息认证，跟一下源码就可以找到认证的实现，所以找到这段代码，就方便了后续认证方式的扩展，比如验证码，企业微信，短信等方式*/
                 final AuthenticationResultBuilder builder = this.authenticationSystemSupport.handleInitialAuthenticationTransaction(service, credential);
                 if (builder.getInitialAuthentication().isPresent()) {
                     WebUtils.putAuthenticationResultBuilder(builder, context);
@@ -102,6 +104,7 @@ public class InitialAuthenticationAttemptWebflowEventResolver extends AbstractCa
             if (builder == null) {
                 throw new IllegalArgumentException("No authentication result builder can be located in the context");
             }
+            /*认证通过，生成TGT，并放入flowScope作用域呢*/
             return CollectionUtils.wrapSet(grantTicketGrantingTicketToAuthenticationResult(context, builder, service));
         } catch (final Exception e) {
             Event event = returnAuthenticationExceptionEventIfNeeded(e);

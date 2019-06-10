@@ -122,6 +122,9 @@ public class QueryDatabaseAuthenticationHandler extends AbstractJdbcUsernamePass
         } catch (final DataAccessException e) {
             throw new PreventedException("SQL exception while executing query for " + username, e);
         }
+        //return all attributes from querysql --by wcc
+        System.out.println("return all attributes from querysql --by wcc");
+        System.out.println("username = "+username+";attributes = "+attributes);
         final Principal principal = this.principalFactory.createPrincipal(username, attributes);
         return createHandlerResult(credential, principal, new ArrayList<>(0));
     }
