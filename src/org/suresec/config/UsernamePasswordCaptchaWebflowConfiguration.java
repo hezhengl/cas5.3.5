@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
-import org.suresec.webflow.configurer.CustomWebflowConfigurer;
+import org.suresec.webflow.configurer.CaptchaWebflowConfigurer;
+import org.suresec.webflow.configurer.CaptchaWebflowConfigurer;
 
 
 
@@ -23,10 +24,10 @@ import org.suresec.webflow.configurer.CustomWebflowConfigurer;
  * 创建日期:2018/02/06
  *
  */
-@Configuration("customerAuthWebflowConfiguration")
+@Configuration("usernamePasswordCaptchaWebflowConfiguration")
 @EnableConfigurationProperties(CasConfigurationProperties.class)
 @AutoConfigureBefore(value = CasWebflowContextConfiguration.class)
-public class CustomerAuthWebflowConfiguration {
+public class UsernamePasswordCaptchaWebflowConfiguration {
     @Autowired
     @Qualifier("logoutFlowRegistry")
     private FlowDefinitionRegistry logoutFlowRegistry;
@@ -44,12 +45,11 @@ public class CustomerAuthWebflowConfiguration {
 
     //注册到springboot中
     @Bean
-    public CasWebflowConfigurer customWebflowConfigurer() {
-        final CustomWebflowConfigurer c = new CustomWebflowConfigurer(builder, loginFlowRegistry, applicationContext, casProperties);
+    public CaptchaWebflowConfigurer captchaWebflowConfigurer() {
+        final CaptchaWebflowConfigurer c = new CaptchaWebflowConfigurer(builder, loginFlowRegistry, applicationContext, casProperties);
         //c.setLogoutFlowDefinitionRegistry(logoutFlowRegistry);//5.1
         //初期化
         c.initialize();//5.2 5.1与5.2的区别，好坑呐
-        System.out.println("CustomerAuthWebflowConfiguration........................customWebflowConfigurer");
         return c;
     }
 }

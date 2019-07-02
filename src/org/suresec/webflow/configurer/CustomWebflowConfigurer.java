@@ -1,4 +1,4 @@
-package org.suresec.auth;
+package org.suresec.webflow.configurer;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.web.flow.CasWebflowConstants;
 import org.apereo.cas.web.flow.configurer.AbstractCasWebflowConfigurer;
@@ -8,6 +8,7 @@ import org.springframework.webflow.engine.Flow;
 import org.springframework.webflow.engine.ViewState;
 import org.springframework.webflow.engine.builder.BinderConfiguration;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
+import org.suresec.authentication.UsernamePasswordSysCredential;
 
 /**
  * 重新定义默认的web流程

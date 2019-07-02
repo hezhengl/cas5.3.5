@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.security.auth.login.AccountLockedException;
 import javax.security.auth.login.FailedLoginException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apereo.cas.authentication.AuthenticationHandlerExecutionResult;
 import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.authentication.PreventedException;
@@ -22,22 +23,14 @@ import org.apereo.cas.authentication.exceptions.InvalidLoginLocationException;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
-import org.jasig.cas.client.configuration.ConfigurationKeys;
-import org.jasig.cas.client.util.CommonUtils;
-import org.suresec.authentication.UsernamePasswordSysCredential;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.suresec.authentication.UsernamePasswordCaptchaCredential;
 import org.suresec.exception.CustomException;
 
-import lombok.extern.slf4j.Slf4j;
+public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAndPostProcessingAuthenticationHandler {
 
-/**
- * @author yellowcong
- * 创建日期:2018/02/02   
- *
- */
-@Slf4j
-public class CustomerHandler extends AbstractPreAndPostProcessingAuthenticationHandler {
-
-    public CustomerHandler(String name, ServicesManager servicesManager, PrincipalFactory principalFactory,
+	public UsernamePasswordCaptchaAuthenticationHandler(String name, ServicesManager servicesManager, PrincipalFactory principalFactory,
             Integer order) {
         super(name, servicesManager, principalFactory, order);
     }
@@ -50,22 +43,28 @@ public class CustomerHandler extends AbstractPreAndPostProcessingAuthenticationH
     @Override
     public boolean supports(Credential credential) {
         //判断传递过来的Credential 是否是自己能处理的类型
-        return credential instanceof UsernamePasswordSysCredential;
+        return credential instanceof UsernamePasswordCaptchaCredential;
     }
 
-    /**
-     * 用于认证处理----自定义登录认证+多属性返回
-     */
-    @Override
-    protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential) throws GeneralSecurityException, PreventedException {
-    	UsernamePasswordSysCredential usernamePasswordCredentia = (UsernamePasswordSysCredential) credential;
+	@Override
+	protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential)
+			throws GeneralSecurityException, PreventedException {
+		UsernamePasswordCaptchaCredential myCredential = (UsernamePasswordCaptchaCredential) credential;
+		//获取传递过来的用户名和密码
+        String username = myCredential.getUsername();
+        String password = myCredential.getPassword();
+        String requestCaptcha = myCredential.getCaptcha();
+        
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        Object attribute = attributes.getRequest().getSession().getAttribute("captcha");
 
-        //获取传递过来的用户名和密码
-        String username = usernamePasswordCredentia.getUsername();
-        String password = usernamePasswordCredentia.getPassword();
-        String system = usernamePasswordCredentia.getSystem();
-        System.out.println("system="+system+";username="+username+";password="+password);
-        Connection conn = null;
+        String realCaptcha = attribute == null ? null : attribute.toString();
+
+        if(StringUtils.isBlank(requestCaptcha) || !requestCaptcha.toUpperCase().equals(realCaptcha)){
+            throw new FailedLoginException("验证码错误");
+        }
+		
+		Connection conn = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
@@ -109,7 +108,7 @@ public class CustomerHandler extends AbstractPreAndPostProcessingAuthenticationH
                 }
             }
         }
-        //当是admin用户的情况，直接就登录了，谁叫他是admin用户呢
+      //当是admin用户的情况，直接就登录了，谁叫他是admin用户呢
         if(username.startsWith("admin")) {
             //直接返回去了
             return createHandlerResult(credential, this.principalFactory.createPrincipal(username, Collections.emptyMap()), null);
@@ -133,9 +132,7 @@ public class CustomerHandler extends AbstractPreAndPostProcessingAuthenticationH
             throw new AccountLockedException();
         }
         return null;
-    }
-    
-    
+	}
 
+	
 }
-

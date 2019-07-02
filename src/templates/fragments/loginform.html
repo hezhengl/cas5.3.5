@@ -75,6 +75,21 @@
                             </span>
                             </div>
                         </section>
+                        <!-- wcc 20190702 add 新参数验证码 -->
+                        <section class="form-group">
+				            <label for="captcha">验证码:</label>
+				            <div>
+				                <input class="required"
+				                       id="captcha"
+				                       name="captcha"
+				                       size="10"
+				                       tabindex="2"
+				                       th:field="*{captcha}"
+				                       autocomplete="off"/>
+				                <img th:src="@{/getCaptcha}" id="captcha_img" >
+				                <!--(看不清<a href="javascript:void(0)" onclick="javascript:refreshCaptcha()">换一张</a>)-->
+				            </div>
+				        </section>
 
                         <section class="form-check" th:if="${passwordManagementEnabled && param.doChangePassword != null}">
                             <p>
@@ -140,6 +155,11 @@
                                 $(":submit").attr("value", i);
                                 console.log(i);
                                 return true;
+                            });
+                            //20190702 WCC refreshcaptcha
+                            $("#captcha_img").click(function () {
+                            	$("#captcha_img").attr("src","/cas5.3.5/getCaptcha?id=" + new Date() + Math.floor(Math.random()*24));
+                                console.log("click");
                             });
                         });
                     </script>

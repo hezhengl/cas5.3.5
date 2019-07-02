@@ -13,6 +13,8 @@
         <binder>
             <binding property="username" required="true"/>
             <binding property="password" required="true"/>
+            <!-- wcc 20190702 add 新参数验证码 captcha -->
+            <binding property="captcha" required="false"/>
         </binder>
         <transition on="submit" bind="true" validate="true" to="realSubmit" history="invalidate"/>
     </view-state>

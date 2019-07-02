@@ -1,4 +1,4 @@
-package org.suresec.auth;
+package org.suresec.authentication;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apereo.cas.authentication.RememberMeUsernamePasswordCredential;
