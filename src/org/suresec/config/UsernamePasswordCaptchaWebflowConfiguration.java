@@ -2,7 +2,6 @@ package org.suresec.config;
 
 
 import org.apereo.cas.configuration.CasConfigurationProperties;
-import org.apereo.cas.web.flow.CasWebflowConfigurer;
 import org.apereo.cas.web.flow.config.CasWebflowContextConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
-import org.suresec.webflow.configurer.CaptchaWebflowConfigurer;
 import org.suresec.webflow.configurer.CaptchaWebflowConfigurer;
 
 

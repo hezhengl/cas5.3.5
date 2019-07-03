@@ -13,11 +13,38 @@
         <binder>
             <binding property="username" required="true"/>
             <binding property="password" required="true"/>
-            <!-- wcc 20190702 add 新参数验证码 captcha -->
-            <binding property="captcha" required="false"/>
+            <binding property="verificationCode" />
+            <!-- add by wlw ,add key pin, 2017.6.27 -->
+            <binding property="CertDN" />
+			<binding property="signvalue" />			
+			<binding property="sInData" />
+			<binding property="cert_flag" />
+			<binding property="submitMode"/>
         </binder>
-        <transition on="submit" bind="true" validate="true" to="realSubmit" history="invalidate"/>
+        <transition on="submit" bind="true" validate="true" to="submitMode" history="invalidate"/>
     </view-state>
+    
+    <!-- 判断登录类型 wcc 20190702 move here -->
+    <action-state id="submitMode">
+    	<evaluate expression="authenticationViaFormKeyPinAction.submitMode(flowRequestContext, flowScope.credential, flowScope.service,messageContext)"></evaluate>
+        <transition on="error" to="initializeLoginForm" />
+        <transition on="verifySign" to="verifySign" />
+        <transition on="verificationCode" to="verificationCode" />
+        <transition on="casBadAuthorityView" to="casBadAuthorityView" />
+    </action-state>
+    
+     <action-state id="verificationCode">
+    	<evaluate expression="authenticationViaFormKeyPinAction.verificationCode(flowRequestContext, flowScope.credential, messageContext)"></evaluate>
+        <transition on="error" to="initializeLoginForm" />
+        <transition on="success" to="realSubmit" />
+    </action-state>
+         
+    <!--add by wlw, add  verifySign for  verify-->
+    <action-state id="verifySign">
+        <evaluate expression="authenticationViaFormKeyPinAction.verifySign(flowRequestContext, flowScope.credential, messageContext)"></evaluate>
+        <transition on="error" to="initializeLoginForm" />
+        <transition on="success" to="realSubmit" />
+    </action-state>
 
     <action-state id="realSubmit">
         <evaluate expression="authenticationViaFormAction"/>

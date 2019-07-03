@@ -77,14 +77,14 @@
                         </section>
                         <!-- wcc 20190702 add 新参数验证码 -->
                         <section class="form-group">
-				            <label for="captcha">验证码:</label>
+				            <label for="verificationCode">验证码:</label>
 				            <div>
 				                <input class="required"
-				                       id="captcha"
-				                       name="captcha"
+				                       id="verificationCode"
+				                       name="verificationCode"
 				                       size="10"
 				                       tabindex="2"
-				                       th:field="*{captcha}"
+				                       th:field="*{verificationCode}"
 				                       autocomplete="off"/>
 				                <img th:src="@{/getCaptcha}" id="captcha_img" >
 				                <!--(看不清<a href="javascript:void(0)" onclick="javascript:refreshCaptcha()">换一张</a>)-->
@@ -109,7 +109,8 @@
                         <section class="row" th:if="${recaptchaSiteKey != null AND recaptchaInvisible != null AND recaptchaSiteKey AND !recaptchaInvisible}">
                             <div class="g-recaptcha" th:attr="data-sitekey=${recaptchaSiteKey}"/>
                         </section>
-
+                        
+						<input type="hidden" value="verificationCode" name="submitMode"/>
                         <input type="hidden" name="execution" th:value="${flowExecutionKey}"/>
                         <input type="hidden" name="_eventId" value="submit"/>
                         <input type="hidden" name="geolocation"/>

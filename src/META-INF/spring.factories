@@ -8,6 +8,7 @@ org.apereo.cas.config.CasCoreAuthenticationHandlersConfiguration,\
 org.apereo.cas.config.CasRestConfiguration,\
 org.suresec.config.UsernamePasswordCaptchaHandlerConfiguration,\
 org.suresec.config.UsernamePasswordCaptchaWebflowConfiguration,\
-org.suresec.SpringConfig
+org.suresec.config.SpringConfig,\
+org.suresec.config.DataSourceConfig
 
 

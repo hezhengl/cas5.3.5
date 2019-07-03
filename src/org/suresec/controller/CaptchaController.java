@@ -21,7 +21,7 @@ import org.suresec.util.CaptchaUtil;
 @Controller
 public class CaptchaController {
 
-    public static final String KEY_CAPTCHA = "captcha";
+    public static final String KEY_CAPTCHA = "verificationCode";
 
     @RequestMapping("/getCaptcha")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {

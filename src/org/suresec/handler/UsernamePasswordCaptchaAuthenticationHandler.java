@@ -25,7 +25,7 @@ import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.suresec.authentication.UsernamePasswordCaptchaCredential;
+import org.suresec.authentication.UsernamePasswordKeyPINCredential;
 import org.suresec.exception.CustomException;
 
 public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAndPostProcessingAuthenticationHandler {
@@ -43,20 +43,20 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
     @Override
     public boolean supports(Credential credential) {
         //判断传递过来的Credential 是否是自己能处理的类型
-        return credential instanceof UsernamePasswordCaptchaCredential;
+        return credential instanceof UsernamePasswordKeyPINCredential;
     }
 
 	@Override
 	protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential)
 			throws GeneralSecurityException, PreventedException {
-		UsernamePasswordCaptchaCredential myCredential = (UsernamePasswordCaptchaCredential) credential;
+		UsernamePasswordKeyPINCredential myCredential = (UsernamePasswordKeyPINCredential) credential;
 		//获取传递过来的用户名和密码
         String username = myCredential.getUsername();
         String password = myCredential.getPassword();
-        String requestCaptcha = myCredential.getCaptcha();
+        String requestCaptcha = myCredential.getVerificationCode();
         
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        Object attribute = attributes.getRequest().getSession().getAttribute("captcha");
+        Object attribute = attributes.getRequest().getSession().getAttribute("verificationCode");
 
         String realCaptcha = attribute == null ? null : attribute.toString();
 
