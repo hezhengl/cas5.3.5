@@ -4,19 +4,14 @@ import org.apereo.cas.authentication.UsernamePasswordCredential;
 
 /**
  * 
- * @author wcc 2019/7/2 用户名-密码-验证码
- *
+ * @author wcc
+ * @time 2019-07-04 02:15
+ * @description 凭证（参考老系统）
  */
 public class UsernamePasswordKeyPINCredential extends UsernamePasswordCredential {
 
-    /**
-     * Authentication attribute name for password.
-     **/
     public static final String AUTHENTICATION_ATTRIBUTE_PASSWORD = "credential";
-
-    /**
-     * 
-     */
+   
     private static final long serialVersionUID = -864735145551932618L;
     
     

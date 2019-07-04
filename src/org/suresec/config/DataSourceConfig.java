@@ -10,12 +10,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
- * 相当于之前的ApplicationContext-Dao.xml
- * 配置数据源,使用阿里Druid数据源
- * @author xiyan
- *
+ * 
+ * @author wcc
+ * @time 2019-07-04 05:13
+ * @description 配置数据源（用于证书校验和用户权限校验）
  */
-
 @Configuration
 public class DataSourceConfig {
 	/**

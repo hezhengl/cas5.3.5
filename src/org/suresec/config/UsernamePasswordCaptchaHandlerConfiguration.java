@@ -15,9 +15,10 @@ import org.suresec.handler.UsernamePasswordCaptchaAuthenticationHandler;
 
 
 /**
- * @author: wangsaichao
- * @date: 2018/7/21
- * @description: 注册验证器
+ * 
+ * @author wcc
+ * @time 2019-07-04 05:17
+ * @description 注册验证器(未使用--目前依然采用默认的jdbc登录验证)
  */
 @Configuration("usernamePasswordCaptchaHandlerConfiguration")
 @EnableConfigurationProperties(CasConfigurationProperties.class)

@@ -14,13 +14,11 @@ import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
 import org.springframework.webflow.engine.builder.support.FlowBuilderServices;
 import org.suresec.webflow.configurer.CaptchaWebflowConfigurer;
 
-
-
 /**
  * 
- * @author yellowcong
- * 创建日期:2018/02/06
- *
+ * @author wcc
+ * @time 2019-07-04 05:18
+ * @description 注册登录流程(未使用--目前依然采用默认的jdbc登录验证)
  */
 @Configuration("usernamePasswordCaptchaWebflowConfiguration")
 @EnableConfigurationProperties(CasConfigurationProperties.class)

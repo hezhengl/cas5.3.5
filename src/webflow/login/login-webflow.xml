@@ -3,7 +3,9 @@
       xmlns="http://www.springframework.org/schema/webflow"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
                           http://www.springframework.org/schema/webflow/spring-webflow.xsd">
-
+                          
+    <!-- 绑定credential 可以在此直接绑定也可在代码中进行绑定 by wcc 20190703 -->                     
+	<var name="credential" class="org.suresec.authentication.UsernamePasswordKeyPINCredential"/>
     <action-state id="initializeLoginForm">
         <evaluate expression="initializeLoginAction" />
         <transition on="success" to="viewLoginForm"/>
@@ -54,5 +56,7 @@
         <transition on="authenticationFailure" to="handleAuthenticationFailure"/>
         <transition on="error" to="initializeLoginForm"/>
     </action-state>
+    
+    <end-state id="casBadAuthorityView" view="casBadAuthorityView"></end-state>
 
 </flow>

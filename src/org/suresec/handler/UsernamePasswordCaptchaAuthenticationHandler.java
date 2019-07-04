@@ -23,13 +23,21 @@ import org.apereo.cas.authentication.exceptions.InvalidLoginLocationException;
 import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.suresec.authentication.UsernamePasswordKeyPINCredential;
-import org.suresec.exception.CustomException;
-
+/**
+ * 
+ * @author wcc
+ * @time 2019-07-04 05:33
+ * @description 自定义登录验证
+ */
 public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAndPostProcessingAuthenticationHandler {
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 	public UsernamePasswordCaptchaAuthenticationHandler(String name, ServicesManager servicesManager, PrincipalFactory principalFactory,
             Integer order) {
         super(name, servicesManager, principalFactory, order);
@@ -45,7 +53,9 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
         //判断传递过来的Credential 是否是自己能处理的类型
         return credential instanceof UsernamePasswordKeyPINCredential;
     }
-
+    /**
+     * 校验
+     */
 	@Override
 	protected AuthenticationHandlerExecutionResult doAuthentication(Credential credential)
 			throws GeneralSecurityException, PreventedException {
@@ -66,32 +76,10 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
 		
 		Connection conn = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-
-            //直接是原生的数据库配置啊
-            String url = "jdbc:mysql://localhost:3306/cas?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-            String user = "root";
-            String pass = "123456";
-
-            conn = DriverManager.getConnection(url,user, pass);
-
             //查询语句
             String sql = "SELECT * FROM user_info WHERE user_id =?  AND password= ?";
-            PreparedStatement  ps = conn.prepareStatement(sql);
-            ps.setString(1, username);
-            ps.setString(2, password);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(rs.next()) {
-                //存放数据到里面
-                Map<String,Object> result = new HashMap<String,Object>();
-                result.put("user_id", rs.getString("user_id"));
-                result.put("password", rs.getString("password"));
-                result.put("user_email", rs.getString("user_email"));
-                //result.put("addr", rs.getString("addr"));
-                //result.put("phone", rs.getString("phone"));
-                //result.put("age", rs.getString("age"));
+            Map<String,Object> result = jdbcTemplate.queryForMap(sql, new Object[]{username,password});
+            if(!result.isEmpty()) {
                 System.out.println("result----------"+result);
                 //允许登录，并且通过this.principalFactory.createPrincipal来返回用户属性
                 return createHandlerResult(credential, this.principalFactory.createPrincipal(username, result), new ArrayList<>(0));
@@ -114,7 +102,7 @@ public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAnd
             return createHandlerResult(credential, this.principalFactory.createPrincipal(username, Collections.emptyMap()), null);
         }else if (username.startsWith("cas")) {
             //自定义异常测试
-            throw new CustomException("自定义异常测试");
+            //throw new CustomException("自定义异常测试");
         }else if (username.startsWith("lock")) {
             //用户锁定
             throw new AccountLockedException();

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.authentication.RootCasException;
 import org.apereo.cas.authentication.adaptive.AdaptiveAuthenticationPolicy;
@@ -21,19 +22,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
 import org.suresec.authentication.UsernamePasswordKeyPINCredential;
 import org.suresec.exception.BadAuthcodeAuthenticationException;
+import org.suresec.exception.NullAuthcodeAuthenticationException;
 import org.suresec.exception.VerificationCodeException;
-
-
+import org.suresec.util.VerifySign;
 
 /**
- * Action to authenticate credential and retrieve a TicketGrantingTicket for
- * those credential. If there is a request for renew, then it also generates
- * the Service Ticket required.
- *
- * @author wlw
- * @since 3.0.0
+ * 
+ * @author wcc
+ * @time 2019-07-04 05:20
+ * @description move 登录前校验，在login-webflow.xml中使用
  */
-
 @Component("authenticationViaFormKeyPinAction")
 public class AuthenticationViaFormKeyPinAction extends AbstractAuthenticationAction {
 	
@@ -58,8 +56,15 @@ public class AuthenticationViaFormKeyPinAction extends AbstractAuthenticationAct
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	/**
+	 * @description 登录模式判断+授权查询
+	 * @param context
+	 * @param credential
+	 * @param service
+	 * @param messageContext
+	 * @return
+	 */
 	public final String submitMode(final RequestContext context, final Credential credential, final Service service, final MessageContext messageContext){	
-		System.out.println(".............submitMode");
 		UsernamePasswordKeyPINCredential upc = (UsernamePasswordKeyPINCredential)credential;	
 		if(("verifySign").equals(upc.getSubmitMode())) {
 			
@@ -105,9 +110,14 @@ public class AuthenticationViaFormKeyPinAction extends AbstractAuthenticationAct
     	session.setAttribute("submitMode", upc.getSubmitMode());
     	return upc.getSubmitMode();
 	 }
-	
+	/**
+	 * @description 校验验证码
+	 * @param context
+	 * @param credential
+	 * @param messageContext
+	 * @return
+	 */
 	public final String verificationCode(final RequestContext context, final Credential credential, final MessageContext messageContext){	
-		System.out.println("...........verificationCode");
 		UsernamePasswordKeyPINCredential upc = (UsernamePasswordKeyPINCredential)credential;
 		
 		if(upc.getVerificationCode().equalsIgnoreCase((String)session.getAttribute("verificationCode"))) {
@@ -117,43 +127,42 @@ public class AuthenticationViaFormKeyPinAction extends AbstractAuthenticationAct
 		return "error";
 	}
 	   
-    /**
-     * verify key sign
-     * @param context
-     * @param credential
-     * @param messageContext
-     * @return
-     */
+	/**
+	 * @description 校验证书
+	 * @param context
+	 * @param credential
+	 * @param messageContext
+	 * @return
+	 */
     public final String  verifySign(final RequestContext context, final Credential credential, final MessageContext messageContext){
-    	System.out.println("................verifySign");
+    	UsernamePasswordKeyPINCredential upc = (UsernamePasswordKeyPINCredential)credential;
     	
-//    	UsernamePasswordKeyPINCredential upc = (UsernamePasswordKeyPINCredential)credential;
-//    	
-//    	String signvalue = upc.getSignvalue();
-//    	String certDN = upc.getCertDN();
-//    	String sql = "select * from user_cert where cert_dn = ?";
-//    	List<Map<String, Object>> user_cert = jdbcTemplate.queryForList(sql,certDN);
-//    	if(user_cert.size() != 1) {
-//    		populateErrorsInstance(new BadAuthcodeAuthenticationException(),messageContext);
-//    		return "error";
-//    	}
-//    	String vcert = (String) user_cert.get(0).get("vcert");
-//    	 if (StringUtils.isEmpty(signvalue)) {
-//             populateErrorsInstance(new NullAuthcodeAuthenticationException(),messageContext);
-//             return "error";
-//         }
-//    	if(upc.getCert_flag().equals("0") ){
-//    		if(VerifySign.VerifySignData_RSA(upc.getsInData(), signvalue, vcert)) {
+    	String signvalue = upc.getSignvalue();
+    	String certDN = upc.getCertDN();
+    	String sql = "select * from user_cert where cert_dn = ?";
+    	List<Map<String, Object>> user_cert = jdbcTemplate.queryForList(sql,certDN);
+    	if(user_cert.size() != 1) {
+    		populateErrorsInstance(new BadAuthcodeAuthenticationException(),messageContext);
+    		return "error";
+    	}
+    	String vcert = (String) user_cert.get(0).get("vcert");
+    	 if (StringUtils.isEmpty(signvalue)) {
+             populateErrorsInstance(new NullAuthcodeAuthenticationException(),messageContext);
+             return "error";
+         }
+    	if(upc.getCert_flag().equals("0") ){
+    		if(VerifySign.VerifySignData_RSA(upc.getsInData(), signvalue, vcert)) {
     			 return "success";
-//    		}           
-//        }else {
-//        	if(VerifySign.VerifySignData_SM2(upc.getsInData(), signvalue, vcert)) {
-//   			 	return "success";
-//        	}        
-//        }
-//    	
-//    	populateErrorsInstance(new BadAuthcodeAuthenticationException(),messageContext);
-//    	return "error";
+    		}           
+        }else {
+        	if(VerifySign.VerifySignData_SM2(upc.getsInData(), signvalue, vcert)) {
+   			 	return "success";
+        	}        
+        }
+    	
+    	populateErrorsInstance(new BadAuthcodeAuthenticationException(),messageContext);
+    	return "error";
+
     }
     
     private void populateErrorsInstance(final RootCasException e,

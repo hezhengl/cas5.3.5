@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.suresec.util.CaptchaUtil;
 
 /**
- * @author: wangsaichao
- * @date: 2018/5/26
- * @description:
+ * 
+ * @author wcc
+ * @time 2019-07-04 05:32
+ * @description 生成验证码
  */
 @Controller
 public class CaptchaController {
