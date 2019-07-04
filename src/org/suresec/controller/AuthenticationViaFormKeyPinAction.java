@@ -1,5 +1,7 @@
 package org.suresec.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
 
@@ -63,8 +65,9 @@ public class AuthenticationViaFormKeyPinAction extends AbstractAuthenticationAct
 	 * @param service
 	 * @param messageContext
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
-	public final String submitMode(final RequestContext context, final Credential credential, final Service service, final MessageContext messageContext){	
+	public final String submitMode(final RequestContext context, final Credential credential, final Service service, final MessageContext messageContext) throws UnsupportedEncodingException{	
 		UsernamePasswordKeyPINCredential upc = (UsernamePasswordKeyPINCredential)credential;	
 		if(("verifySign").equals(upc.getSubmitMode())) {
 			
@@ -98,7 +101,13 @@ public class AuthenticationViaFormKeyPinAction extends AbstractAuthenticationAct
     		int flag = 0;
 
     		for (String services : serviceList) {
-				if(services.equals(service.getId())) {
+//				if(services.equals(service.getId())) {
+//					flag ++;
+//					break;
+//				}
+    			//校验规则修改为包含：考虑到有oauth2授权登录的情况
+    			String requestService = URLDecoder.decode(service.getId(), "utf-8");
+    			if(requestService.contains(services)) {
 					flag ++;
 					break;
 				}
