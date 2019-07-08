@@ -1,0 +1,191 @@
+    <pre code_snippet_id="2167146" snippet_file_name="blog_20170207_1_2909570" name="code" class="html">其中<pre code_snippet_id="2167146" snippet_file_name="blog_20170207_1_2909570" name="code" class="html">cache.do?getList 返回一个简单的bean json串</pre><p></p>  
+    <pre></pre>  
+    <pre code_snippet_id="2167146" snippet_file_name="blog_20170207_2_5722278" name="code" class="html"></pre><pre code_snippet_id="2167146" snippet_file_name="blog_20170207_3_8153303" name="code" class="html">include.jsp</pre><br>  
+    <pre></pre>  
+    <pre code_snippet_id="2167146" snippet_file_name="blog_20170207_4_6713653" name="code" class="html"><script  src="${webPath}/plug-in/common/js/jquery-1.8.3.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="/plugins/select2/select2.css" />  
+    <script src="/plugins/select2/select2.js"></script>  
+    <script src="/plugins/select2/i18n/zh-CN.js"></script>  
+    <script src="/plugins/select2/select2.full.js"></script>  
+      
+    =============  
+    <%@ page language="java" contentType="text/html; charset=UTF-8"  
+        pageEncoding="UTF-8"%>  
+    <!DOCTYPE HTML>  
+    <html>  
+    <head>  
+    <title>select2示例</title>  
+    <%@ include file="/plug-in/common/include.jsp"%>  
+      
+      
+    <script>  
+        $(function() {  
+            $(".select2").select2({  
+                language : "zh-CN",  
+                placeholder : {  
+                    id : '-1', // the value of the option  
+                    text : '请选择重要程度...'  
+                },  
+            });  
+            //placeholder可能与jquery1.83不兼容  
+            $("#sajax").select2({  
+                language : "zh-CN",  
+      
+      
+                allowClear : true,  
+                ajax : {  
+                    url : $webPath + 'cache.do?getList',  
+                    dataType : 'json',  
+                    delay : 250,  
+                    data : function(params) {  
+                        var query = {  
+                            search : params.term,  
+                            page : params.page || 1,  
+                            rows : 30,  
+                            key : 'AGRITECH_TYPE',  
+                            bNeedAll :false  
+                        }  
+                        // Query paramters will be ?search=[term]&page=[page]  
+                        return query;  
+                    },  
+                    processResults : function(data, params) {  
+                        params.page = params.page || 1;  
+                        var rows = data;  
+                        for ( var i in rows) {  
+                            var row = rows[i];  
+                            row.id = row.itemCode;  
+                            row.text = row.itemValue;  
+                        }  
+                        return {  
+                            results : rows,  
+                            pagination : {  
+                                more : (params.page * 30) < data.total  
+                            }  
+                        };  
+                    },  
+                    cache : true  
+                },  
+                escapeMarkup : function(markup) {  
+                    return markup;  
+                },  
+                templateResult : formatRepo,  
+                templateSelection : formatRepoSelection  
+            });  
+            $("#stree").select2tree();  
+      
+      
+            var data = [ {  
+                id : 0,  
+                text : 'enhancement',  
+                other : "userdata"  
+            }, {  
+                id : 1,  
+                text : 'bug'  
+            }, {  
+                id : 2,  
+                text : 'duplicate'  
+            }, {  
+                id : 3,  
+                text : 'invalid'  
+            }, {  
+                id : 4,  
+                text : 'wontfix'  
+            } ];  
+      
+      
+            $(".js-example-data-array").select2({  
+                data : data  
+            });  
+      
+      
+            $(".js-example-data-array-selected").select2({  
+                data : data  
+            });  
+        });  
+        function formatRepo(repo) {  
+            return repo.text  
+        }  
+        function formatRepoSelection(repo) {  
+            return repo.text  
+        }  
+      
+      
+        function getSelect() {  
+            var res = $("#Importance").select2("data")[0]; //单选  
+            var reslist = $("#multiple").select2("data"); //多选  
+            var sajax = $("#sajax").select2("data")[0];   
+              
+            if (res == undefined) {  
+                alert("你没有选中Importance");  
+            } else {  
+                alert("Importance:" + res.id + res.text);  
+            }  
+            if (reslist.length) {  
+                alert("multiple:" + reslist[0].id + reslist[0].text);  
+            } else {  
+                alert("你没选中multiple");  
+            }  
+            if (sajax == undefined) {  
+                alert("你没有选中sajax");  
+            } else {  
+                alert("sajax:" + sajax.id + sajax.text);  
+            }         
+        }  
+        function clearSelect() {  
+            //清空选择  
+            $("#Importance").val(null).trigger("change");  
+            $("#multiple").val(null).trigger("change");  
+            //disabled  
+            $(".js-example-data-array").prop("disabled", true);//不可用  
+        }  
+    </script>  
+    </head>  
+    <body>  
+        <div>  
+            <select id="Importance" class="select2"  
+                style="width: 200px;margin-left: 10%;float:left;">  
+                <option></option>  
+                <option value="1">非常重要</option>  
+                <option value="2">重要</option>  
+                <option value="3">一般</option>  
+            </select> <select id="multiple" class="select2" multiple="multiple"  
+                style="width: 200px;margin-left: 10%;float:left;">  
+                <option value="A">非常重要</option>  
+                <option value="B">重要</option>  
+                <option value="C">一般</option>  
+            </select> <select id="sajax" style="width: 200px;margin-left: 10%;float:left;">  
+            </select> <select id="stree" multiple="multiple"  
+                style="width: 300px;margin-left: 10%;float:right;">  
+                <option value="12" parent="1">12</option>  
+                <option value="1" disabled="disabled">1</option>  
+                <option value="13" parent="1">13</option>  
+                <option value="11" parent="1">11</option>  
+                <option value="131" parent="13">131</option>  
+                <option value="132" parent="13">132</option>  
+                <option value="2" disabled="disabled">2</option>  
+                <option value="21" parent="2">21</option>  
+                <option value="32" parent="3">32</option>  
+                <option value="33" parent="3">33</option>  
+                <option value="3" disabled="disabled">3</option>  
+                <option value="31" parent="3">31</option>  
+                <option value="22" parent="2">22</option>  
+                <option value="133" parent="13">133</option>  
+                <option value="23" parent="2">23</option>  
+            </select>  
+        </div>  
+      
+      
+        <select class="js-example-data-array"></select>  
+      
+      
+        <select class="js-example-data-array-selected">  
+            <option value="2" selected="selected">duplicate</option>  
+        </select>  
+        <input type="button" onclick="getSelect()" value="取值">  
+        <input type="button" onclick="clearSelect()" value="清除">  
+      
+      
+    </body>  
+    </html></pre><br>  
+    <p></p>  
+         

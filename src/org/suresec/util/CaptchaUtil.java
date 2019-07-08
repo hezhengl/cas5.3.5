@@ -12,15 +12,15 @@ import java.util.Random;
 public class CaptchaUtil {
 
     // 随机产生的字符串
-    private static final String RANDOM_STRS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String RANDOM_STRS = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 
-    private static final String FONT_NAME = "Fixedsys";
-    private static final int FONT_SIZE = 18;
+    private static final String FONT_NAME = "Algerian";
+    private static final int FONT_SIZE = 22;
 
     private Random random = new Random();
 
-    private int width = 80;// 图片宽
-    private int height = 25;// 图片高
+    private int width = 100;// 图片宽
+    private int height = 34;// 图片高
     private int lineNum = 50;// 干扰线数量
     private int strNum = 4;// 随机产生字符数量
 
@@ -78,7 +78,7 @@ public class CaptchaUtil {
         String rand = String.valueOf(getRandomString(random.nextInt(RANDOM_STRS
                 .length())));
         g.translate(random.nextInt(3), random.nextInt(3));
-        g.drawString(rand, 13 * i, 16);
+        g.drawString(rand, 15 * i, 20);
         return rand;
     }
 

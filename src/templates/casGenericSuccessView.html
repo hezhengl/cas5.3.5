@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout2}">
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -10,8 +10,8 @@
 </head>
 
 <body>
-<main role="main" class="container mt-3 mb-3">
-    <div layout:fragment="content" class="row">
+<main role="main">
+    <div layout:fragment="content">
         <div class="alert alert-success">
             <h2 th:utext="#{screen.success.header}">Log In Successful</h2>
             <p th:utext="#{screen.success.success(${principal.id})}">You, <strong>username</strong>, have successfully
@@ -42,15 +42,6 @@
                 </table>
             </div>
         </div>
-
-        <div id="notices" class="col-md mt-3 mt-md-0">
-            <div th:replace="fragments/cas-resources-list :: cas-resource-list">
-                <a href="fragments/cas-resources-list.html">cas-resource</a> list fragment
-            </div>
-        </div>
-
-
-        
     </div>
 
     
