@@ -1,0 +1,18 @@
+.navbar-top-links .dropdown-menu li {
+  display: block;
+}
+.sidebar-menu .nav-second-level  li,
+.sidebar-menu .nav-third-level   li {
+  border-bottom: none !important;
+}
+.sidebar-menu .nav-second-level li a {
+  padding-left: 37px;
+}
+/*.sidebar-menu .nav-third-level li a {
+  padding-left: 52px;
+}*/
+a,
+.treeview  a,
+.treeview-menu  a{
+	text-decoration: none;
+}

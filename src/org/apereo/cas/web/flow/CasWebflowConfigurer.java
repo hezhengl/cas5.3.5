@@ -262,4 +262,9 @@ public interface CasWebflowConfigurer extends Ordered {
     default String getName() {
         return getClass().getSimpleName();
     }
+    /**
+     * add by wcc 20190716
+     * @return
+     */
+	Flow getChangepwdFlow();
 }

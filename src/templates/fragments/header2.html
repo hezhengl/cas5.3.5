@@ -4,97 +4,59 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-    <title>统一身份认证平台</title>
-	<link rel="shortcut icon" th:href="@{/images/lock.png}" type="image/x-icon" />
-	<meta name="keywords" content="统一身份认证中心" />
-	<meta name="description" content="统一身份认证中心" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<!-- Bootstrap 3.3.7 -->
-	<!-- Tell the browser to be responsive to screen width -->
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="stylesheet" th:href="@{/css/metisMenu.css}"/> 
-	<!-- Font Awesome -->
-	<link rel="stylesheet" th:href="@{/css/font-awesome/css/font-awesome.min.css}">
-	<!-- Ionicons -->
-	<link rel="stylesheet" th:href="@{/Ionicons/css/ionicons.min.css}">
-	<!-- DataTables -->
-	<link rel="stylesheet" th:href="@{/css/dataTables.bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{/AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css}"/> 
-	<!-- Theme style -->
-	<link rel="stylesheet" th:href="@{/css/AdminLTE.css}">
-	<!-- AdminLTE Skins. Choose a skin from the css/skins  folder instead of downloading all of them to reduce the load. -->
-	<link rel="stylesheet" th:href="@{/css/skins/skin-blue.css}">
-	<link rel="stylesheet" th:href="@{/css/skins/skin-blue-light.css}">
-	<!--选项卡插件样式-->
-	<link rel="stylesheet" th:href="@{/css/b.tabs.css}" />
 </head>
-<style>
-	.caption{
-		text-align: center;
-	}
-	.small-box .icon{
-		top: -25px;
-	}
-	.thumbnail{
-		border: 1px;
-	}	
-</style>
-<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body>
-    
-<!-- 顶部导航 -->
-<header class="main-header">
-    <nav class="navbar navbar-static-top" >
-   		<div class="">
-         <div class="navbar-header">
-           <a th:href="@{/toAppList}?account=${principal.getAttributes().get('account')}" class="logo" style="background-color: #3c8dbc;width: 100%" title="返回首页">
-          	<img  th:src="@{/images/logoSS_white.png}" style="height: 50% ; vertical-align: text-bottom;">
-          	<span><b>统一身份认证中心</b></span>
-           </a>
-          </div>
-   		 </div>
-		<div class="btn-group">
-           <a  th:href="javascript:void(0)" class="sidebar-toggle " data-toggle="dropdown" style="border: 0;">
-             <span class="icon-bar"></span>
-      	   </a>
-      	 <ul class="dropdown-menu pull-left" role="menu">
-            <li><a th:href="@{/toAppList}?account=${principal.getAttributes().get('account')}"><i class="fa fa-fw fa-list"></i>资源列表</a></li>
-            <li><a th:href="@{/changepwd}?account=${principal.getAttributes().get('account')}"><i class="fa fa-fw fa-key"></i>修改密码</a></li>
-            <li class="divider"></li>
-            <li><a href="@{/logout}"><i class="fa fa-fw fa-power-off"></i>退出登录</a></li>
-          </ul>
-        </div>
+	<header th:fragment="header" class="main-header">
+		<nav class="navbar navbar-static-top">
+			<div class="">
+				<div class="navbar-header">
+					<a th:href="@{/login}" class="logo" style="background-color: #3c8dbc; width: 100%" title="返回首页"> 
+						<img th:src="@{/images/logoSS_white.png}" style="height: 50%; vertical-align: text-bottom;"> <span><b>统一身份认证中心</b></span>
+					</a>
+				</div>
+			</div>
+			<div class="btn-group">
+				<a href="javascript:void(0)" class="sidebar-toggle " data-toggle="dropdown" style="border: 0;"> 
+					<span class="icon-bar"></span>
+				</a>
+				<ul class="dropdown-menu pull-left" role="menu">
+					<li><a th:href="@{/login}"><i class="fa fa-fw fa-list"></i>资源列表</a></li>
+					<li><a th:href="@{/changepwd(account=${principal.id})}"><i class="fa fa-fw fa-key"></i>修改密码</a></li>
+					<li class="divider"></li>
+					<li><a href="javascript:void(0)" onclick="javascript:logout()"><i class="fa fa-fw fa-power-off"></i>退出登录</a></li>
+				</ul>
+			</div>
 
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">    
-          <li class="dropdown user user-menu">
-            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-             <img th:src="@{/images/user_logo.jpg}" class="user-image">
-              <span class="hidden-xs">你好 : ${principal.getAttributes().get('account')}  <i class="glyphicon glyphicon-triangle-bottom" style="top: 5px;left: 2px;"></i></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="user-header">  
-              	<img th:="@{/images/user_logo.jpg}" class="img-circle">
-                <p>
-                  ${principal.getAttributes().get('account')} 
-                </p>
-              </li>           
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a th:href="@{/changepwd}?account=${principal.getAttributes().get('account')}" class="btn btn-default btn-flat">修改密码</a>
-                </div>
-                <div class="pull-right">
-                  <a th:href="@{/logout}" class="btn btn-default btn-flat">退出</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<li class="dropdown user user-menu">
+						<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"> 
+							<img th:src="@{/images/user_logo.jpg}" class="user-image"> <span class="hidden-xs">你好 :
+							<span th:utext="${principal.id}" /> <i class="glyphicon glyphicon-triangle-bottom" style="top: 5px; left: 2px;"></i></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li class="user-header">
+								<img th:src="@{/images/user_logo.jpg}" class="img-circle">
+								<p>
+									<span th:utext="${principal.id}" />
+								</p>
+							</li>
+
+							<!-- Menu Footer-->
+							<li class="user-footer">
+								<div class="pull-left">
+									<a th:href="@{/changepwd(account=${principal.id})}" class="btn btn-default btn-flat">修改密码</a>
+								</div>
+								<div class="pull-right">
+									<a href="javascript:void(0)" onclick="javascript:logout()" class="btn btn-default btn-flat">退出</a>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.apereo.cas.web.flow.CasWebflowExecutionPlan;
 import org.apereo.cas.web.flow.CasWebflowExecutionPlanConfigurer;
 import org.apereo.cas.web.flow.actions.CasDefaultFlowUrlHandler;
 import org.apereo.cas.web.flow.actions.LogoutConversionService;
+import org.apereo.cas.web.flow.configurer.DefaultChangepwdWebflowConfigurer;
 import org.apereo.cas.web.flow.configurer.DefaultLoginWebflowConfigurer;
 import org.apereo.cas.web.flow.configurer.DefaultLogoutWebflowConfigurer;
 import org.apereo.cas.web.flow.configurer.GroovyWebflowConfigurer;
@@ -270,8 +271,82 @@ public class CasWebflowContextConfiguration {
                 plan.registerWebflowConfigurer(defaultWebflowConfigurer());
                 plan.registerWebflowConfigurer(defaultLogoutWebflowConfigurer());
                 plan.registerWebflowConfigurer(groovyWebflowConfigurer());
+                plan.registerWebflowConfigurer(defaultChangepwdWebflowConfigurer());//add by wcc 20190717
             }
         };
+    }
+    /**
+     * add by wcc 20190716
+     * @return
+     */
+    @Bean
+    public FlowUrlHandler changepwdFlowUrlHandler() {
+    	final CasDefaultFlowUrlHandler handler = new CasDefaultFlowUrlHandler();
+        //handler.setFlowExecutionKeyParameter("RelayState");
+        return handler;
+    }
+    /**
+     * add by wcc 20190716
+     * @return
+     */
+    @Bean
+    public HandlerAdapter changepwdHandlerAdapter() {
+    	final FlowHandlerAdapter handler = new CasFlowHandlerAdapter("changepwd");//CasWebflowConfigurer.FLOW_ID_LOGIN
+    	handler.setFlowExecutor(changepwdFlowExecutor());
+    	handler.setFlowUrlHandler(changepwdFlowUrlHandler());
+    	return handler;
+    }
+
+    /**
+     * add by wcc 20190716
+     * @return
+     */
+    @Bean
+    public HandlerMapping changepwdFlowHandlerMapping() {
+    	final FlowHandlerMapping handler = new FlowHandlerMapping();
+        handler.setOrder(LOGOUT_FLOW_HANDLER_ORDER);
+        handler.setFlowRegistry(changepwdFlowRegistry());
+        final Object[] interceptors = new Object[]{localeChangeInterceptor()};
+        handler.setInterceptors(interceptors);
+        return handler;
+    }
+
+    /**
+     * add by wcc 20190716
+     * @return
+     */
+    @Bean
+    public FlowDefinitionRegistry changepwdFlowRegistry() {
+        final FlowDefinitionRegistryBuilder builder = new FlowDefinitionRegistryBuilder(this.applicationContext, builder());
+        builder.setBasePath(BASE_CLASSPATH_WEBFLOW);
+        builder.addFlowLocationPattern("/changepwd/*-webflow.xml");
+        return builder.build();
+    }
+    /**
+     * add by wcc 20190716
+     * @return
+     */
+    @ConditionalOnMissingBean(name = "defaultChangepwdWebflowConfigurer")
+    @Bean
+    @Order(0)
+    @RefreshScope
+    public CasWebflowConfigurer defaultChangepwdWebflowConfigurer() {
+        final DefaultChangepwdWebflowConfigurer c = new DefaultChangepwdWebflowConfigurer(builder(), changepwdFlowRegistry(),
+            applicationContext, casProperties);
+        c.setLogoutFlowDefinitionRegistry(changepwdFlowRegistry());
+        c.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return c;
+    }
+    /**
+     * add by wcc 20190716
+     * @return
+     */
+    @RefreshScope
+    @Bean
+    public FlowExecutor changepwdFlowExecutor() {
+    	final WebflowExecutorFactory factory = new WebflowExecutorFactory(casProperties.getWebflow(),
+    			changepwdFlowRegistry(), this.webflowCipherExecutor, new FlowExecutionListener[0]);
+    	return factory.build();
     }
 }
 

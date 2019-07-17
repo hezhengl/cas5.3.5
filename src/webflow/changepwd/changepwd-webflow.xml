@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+ 
+ 	<var name="userinfo" class="org.suresec.authentication.UserInfo"/>
+ 	<on-start>
+        <evaluate expression="initializeChangepwdAction"></evaluate>
+    </on-start>
+ 	<!-- <action-state id="initChangePwd">
+		<evaluate expression="userDao.initChangePwd(flowScope.userinfo, messageContext)"></evaluate>
+		<evaluate expression="initializeChangepwdAction"></evaluate>
+        <transition  on="success"  to="viewChangePwdForm" />
+    </action-state> -->
+    
+    <view-state id="viewChangePwdForm" view="casChangePassWordView" model="userinfo">
+		<binder>
+            <binding property="account" required="true"/>
+            <binding property="oldpwd" required="true"/>
+            <binding property="newpwd" required="true"/>
+            <binding property="again" required="true"/>
+        </binder>       
+        <transition on="submit" bind="true" validate="true" to="change"  history="invalidate"/>
+    </view-state>
+
+	<action-state id="change">
+		<evaluate expression="userDao.changPwd(flowScope.userinfo, messageContext)"></evaluate>
+        <transition on="error" to="viewChangePwdForm" />
+        <transition on="success" to="returnToIndex" />
+    </action-state>
+	<end-state id="returnToIndex" view="externalRedirect:/logout?service=https://cas.example.org:8443/cas5.3.5/login">  
+	</end-state>  	
+	<!-- <end-state id="returnToIndex" view="externalRedirect:servletRelative:/logout">  
+	</end-state> -->  	
+</flow>

@@ -90,6 +90,10 @@ public abstract class AbstractCasWebflowConfigurer implements CasWebflowConfigur
      * The logout flow definition registry.
      */
     protected FlowDefinitionRegistry logoutFlowDefinitionRegistry;
+    /**
+     * add by wcc 20190716
+     */
+    protected FlowDefinitionRegistry changepwdFlowDefinitionRegistry;
 
     /**
      * Flow builder services.
@@ -164,6 +168,17 @@ public abstract class AbstractCasWebflowConfigurer implements CasWebflowConfigur
             return null;
         }
         return (Flow) this.logoutFlowDefinitionRegistry.getFlowDefinition(FLOW_ID_LOGOUT);
+    }
+    /**
+     * add by wcc 20190716
+     */
+    @Override
+    public Flow getChangepwdFlow() {
+    	if (this.changepwdFlowDefinitionRegistry == null) {
+    		LOGGER.warn("changepwd flow registry is not configured correctly.");
+    		return null;
+    	}
+    	return (Flow) this.changepwdFlowDefinitionRegistry.getFlowDefinition("changepwd");
     }
 
     @Override

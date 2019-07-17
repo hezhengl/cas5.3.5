@@ -1,0 +1,49 @@
+.minizjdlist {
+    height: 465px;
+    padding-left: 10px;
+}
+.nav > li i, .sb_submit, .tmybtns, .focusbtns, .p-infos, .logmybtns, .wglink, .webkftab::after, .wgkfbtns, .webbigtab, .webbiggames li, .miniztj_list, .minizjdlist, .minirank dd, .m-sjbooks, .mobijxlist, .mobitestlist, .subtitle h3::before, .moneylist, #subnav i {
+    font-size: 0;
+}
+.logo a, #subnav i, .nav > li i, .nav > li > a::after, #search_pop, .recentbox, .tmycon, .tmycon li, #footer_b .u-wxrz, .focusimgs, .mianfei, .qq-btn, .wx-btn, .ofusers, .level_ico, .p-infos i, .sub-css2, .logmytit, .logmycon, .logmycon .gname, .logmycon .garea, .htgpic p, .htgame0, .htgcont, .wgbg, .webkftab, .webkftab::after, .webkflist, .webkfitems, .webkfitems a, .wgkftab, .webbiglist, .webbiggames, .miniztj_list, .miniztj_list span, .miniztj_list h4, .minizjdlist, .minizjdlist a, .m-miniplay, .mppic, .mpc1, .mpc2, .minirank dl, .minirank a, .sjbook, .sjbookcont, .sjbookintro p, .mobijxlist, .mobijxlist h4, .mobitestwrap, .mobitestlist span, .mobitestlist p, .hmin p, .title h2, .subtitle h3::before, #adtop, .hottj, .m-webgames, .moneylist a, .img76 a, #subnav, #subnav a, .sw980 .webgames, .sw980 .mininewwrap, .sw980 .minitjwrap, .sw980 .minijdwrap, .sw980 .mocont, .sw980 .minijdlist, .aut-wrap_jin {
+    overflow: hidden;
+}
+.minizjdlist a {
+    width: 108px;
+    height: 85px;
+    margin: 0 5px 16px;
+    line-height: 1.5;
+}
+.sb_input, .search_absolute, .tmylog, .tmycon li, .tmymore, #footer, .login-tips, .npbox, .mianfei, .mian-btn, #busercon, .p-infos a, #logmybox, .logmytit, .logmycon a, .wglink a, .webkfitems a, .wgkfmore, .webbigtab span, .webbiggames a, .minizjdlist a, .mpinfo, .mpc2, .mpmore, .minirank a, .sjbookinfo p, .sjbookintro i, .sjbookintro p, .sjbookintro > a, .mobijxlist span, .sitemap dd, .wg-bikf, #friends, .more, .tags a, #subnav a, #subnav a:hover i {
+    font-size: 12px;
+}
+.nav_more a, .search_goplays, .tmylog, .tmycon li, .tmymore, #footer, .focuslink, .login-tips, .sub-css1, .p-infos, .sub-css2, .logmycon > p, .logmybtns, .htgamestar, .webkftab span, .wgkfbtns, .webbiggames a, .minizjdlist a, .mpmore, .minirank a, .sjbookintro i, .sjbookintro > a, .mobijxlist a, .mobijxlist h4, .wg-bibtn a, .moneylist, .refresh, .img76 a, #subnav i, .aut-wrap_jin {
+    text-align: center;
+}
+.btn_recent::after, .subtitle h3::before, .mouseout .pic, .btn_tmylogin, .tmybtns i, .tmybtns .prev, .tmybtns .next, .focusbtns i, .qq-btn, .wx-btn, .oftop span, .level_ico, .logmybtns i, .logmybtns .prev, .logmybtns .next, .webkfitems li, .wgkfbtns i, .wgkfbtns .prev, .wgkfbtns .next, .webbigtab span, .webbiggames a, .miniztj_list a, .minizjdlist a, .minirank a, .sjbook, .sjbookinfo img, .sjbookinfo p, .sjbookintro h4 a, .sjbookintro i, .mobijxlist a, .mobitestlist a, .moneylist a, .aut-card_jin, .aut-link_jin {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+.logo a, #subnav i, .nav > li i, .nav > li > a::after, #search_pop, .recentbox, .tmycon, .tmycon li, #footer_b .u-wxrz, .focusimgs, .mianfei, .qq-btn, .wx-btn, .ofusers, .level_ico, .p-infos i, .sub-css2, .logmytit, .logmycon, .logmycon .gname, .logmycon .garea, .htgpic p, .htgame0, .htgcont, .wgbg, .webkftab, .webkftab::after, .webkflist, .webkfitems, .webkfitems a, .wgkftab, .webbiglist, .webbiggames, .miniztj_list, .miniztj_list span, .miniztj_list h4, .minizjdlist, .minizjdlist a, .m-miniplay, .mppic, .mpc1, .mpc2, .minirank dl, .minirank a, .sjbook, .sjbookcont, .sjbookintro p, .mobijxlist, .mobijxlist h4, .mobitestwrap, .mobitestlist span, .mobitestlist p, .hmin p, .title h2, .subtitle h3::before, #adtop, .hottj, .m-webgames, .moneylist a, .img76 a, #subnav, #subnav a, .sw980 .webgames, .sw980 .mininewwrap, .sw980 .minitjwrap, .sw980 .minijdwrap, .sw980 .mocont, .sw980 .minijdlist, .aut-wrap_jin {
+    overflow: hidden;
+}
+a {
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.minizjdlist img {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 5px;
+}
+.nav > li > a::after, .nav_more a, .nav_last.on .nav_more, .nav_last:hover .nav_more, .mouseout:hover .search_absolute, .mouseout.mouseover .search_absolute, .smart_keya, .search_goplays, .logo a, .recent.recent_on .recentbox, .btn_recent, .tmycon img, #footer_b .u-wxrz, .focusimgs a, .focuslogo, .focuslink, .npbox label::after, #busercon .sub-css, .sub-css2, .logmycon a, .htgpic, .htginfo, .htginfo span, .htgamestar, .wgbg a.wgsite, .wgbg i, .webkfitems a, .webbiglist:hover .arrowshow, .webbiggames img, .miniztj_list span, .miniztj_list i, .minizjdlist img, .mppic, .mpcont dt a, .mpc1, .mpc2, .mpmore, .minirank img, .sjbookcont, .sjbookinfo em, .sjbookintro > a, .mobitestlist span, .mobitestlist i, #adtop, #adtop a, .refresh i, .refresh i::before, .img76 img, .guide a, .guide span, #subnav a, #subnav i, .sw980 .nav_s {
+    display: block;
+}
+img {
+    vertical-align: top;
+    border: 0 0;
+    -ms-interpolation-mode: bicubic;
+}
