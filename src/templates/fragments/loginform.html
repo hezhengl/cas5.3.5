@@ -6,13 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <title>统一身份认证中心</title>
-    <link href="../../static/css/cas.css" rel="stylesheet" th:remove="tag" />
-    <link rel="stylesheet" th:href="@{/AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css}">
-	<link rel="stylesheet" th:href="@{/AdminLTE-2.3.11/dist/css/AdminLTE.min.css}">
-	<link rel="stylesheet" th:href="@{/AdminLTE-2.3.11/plugins/iCheck/square/blue.css}">
-  	
 </head>
-
 <body>
 	<div th:fragment="loginform" class="card">
 	<!-- 确信key控件 -->
@@ -112,10 +106,7 @@
 								</form>
 							</div>
 						</div>
-						<script th:src="@{/AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js}"></script>
-	<script th:src="@{/AdminLTE-2.3.11/plugins/backstretch/jquery.backstretch.min.js}"></script>
-	<script th:src="@{/AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js}"></script>
-	<script th:src="@{/AdminLTE-2.3.11/plugins/iCheck/icheck.min.js}"></script>
+						
 	<script type="text/javascript" th:inline="javascript">
 	var i = [[#{screen.welcome.button.loginwip}]]
 	$( document ).ready(function() {

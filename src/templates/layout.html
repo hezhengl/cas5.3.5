@@ -8,9 +8,18 @@
     <title>统一身份认证中心</title>
     <!--/* Core CAS CSS */-->
     <link rel="stylesheet" href="../static/css/cas.css" th:href="@{${#themes.code('cas.standard.css.file')}}"/>
+    <link href="../../static/css/cas.css" rel="stylesheet" th:remove="tag" />
+    <link rel="stylesheet" th:href="@{/AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/AdminLTE-2.3.11/dist/css/AdminLTE.min.css}">
+	<link rel="stylesheet" th:href="@{/AdminLTE-2.3.11/plugins/iCheck/square/blue.css}">
+	<script th:src="@{/AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+	<script th:src="@{/AdminLTE-2.3.11/plugins/backstretch/jquery.backstretch.min.js}"></script>
+	<script th:src="@{/AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/AdminLTE-2.3.11/plugins/iCheck/icheck.min.js}"></script>
 </head>
 
 <body>
+
 <div th:replace="fragments/header :: header">
     <a href="fragments/header.html">Header</a> fragment will go here
 </div>

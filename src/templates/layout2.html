@@ -29,6 +29,24 @@
 	<link rel="stylesheet" th:href="@{/css/skins/skin-blue-light.css}">
 	<!--选项卡插件样式-->
 	<link rel="stylesheet" th:href="@{/css/b.tabs.css}" />
+	<script th:src="@{/js/jquery-3.2.1.min.js}"></script> 
+	<!-- Bootstrap 3.3.7 -->
+	<script th:src="@{/AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js}"></script>
+	<!-- DataTables -->
+	<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+	<!-- SlimScroll -->
+	<script th:src="@{/js/jquery.slimscroll.min.js}"></script>
+	<!-- FastClick -->
+	<script th:src="@{/js/fastclick.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/js/adminlte.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script th:src="@{/js/demo.js}"></script>
+	<!--选项卡插件-->
+	<script th:src="@{/js/b.tabs.js}"></script>
+	<script th:src="@{/js/bTabs-style.js}"></script>
+	<script th:src="@{/js/metisMenu.js}"></script>
 	
 	<style>
 	.caption{
@@ -62,31 +80,12 @@
     <a href="fragments/footer2.html">Footer</a> fragment will go here
 </div>
 <!-- <script th:replace="fragments/scripts"/> -->
-<script th:src="@{/js/jquery-3.2.1.min.js}"></script> 
-<!-- Bootstrap 3.3.7 -->
-<script th:src="@{/AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js}"></script>
-<!-- DataTables -->
-<script th:src="@{/js/jquery.dataTables.min.js}"></script>
-<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
-<!-- SlimScroll -->
-<script th:src="@{/js/jquery.slimscroll.min.js}"></script>
-<!-- FastClick -->
-<script th:src="@{/js/fastclick.js}"></script>
-<!-- AdminLTE App -->
-<script th:src="@{/js/adminlte.js}"></script>
-<!-- AdminLTE for demo purposes -->
-<script th:src="@{/js/demo.js}"></script>
-<!--选项卡插件-->
-<script th:src="@{/js/b.tabs.js}"></script>
-<script th:src="@{/js/bTabs-style.js}"></script>
-<script th:src="@{/js/metisMenu.js}"></script>
+
 <script th:inline="javascript">
 $(document).ready(function (){
 	var div_height = $("#context_div").height();
 	var footer = $("#footer").height();
 	$("#panel").height(div_height);
-	console.log("111div_height="+$("#panel").height());
-	console.log("111footer="+$("#footer").height());
 	//$("#panel").height(div_height +77);
 	
 });

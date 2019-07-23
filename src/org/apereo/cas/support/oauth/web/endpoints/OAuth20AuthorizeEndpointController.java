@@ -7,6 +7,8 @@ import org.apereo.cas.audit.AuditableExecution;
 import org.apereo.cas.audit.AuditableExecutionResult;
 import org.apereo.cas.authentication.Authentication;
 import org.apereo.cas.authentication.PrincipalException;
+import org.apereo.cas.authentication.principal.DefaultPrincipalFactory;
+import org.apereo.cas.authentication.principal.Principal;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.authentication.principal.Service;
 import org.apereo.cas.authentication.principal.ServiceFactory;
@@ -32,6 +34,7 @@ import org.apereo.cas.ticket.registry.TicketRegistry;
 import org.apereo.cas.util.Pac4jUtils;
 import org.apereo.cas.web.support.CookieRetrievingCookieGenerator;
 import org.apereo.cas.web.support.CookieUtils;
+import org.pac4j.cas.profile.CasProfile;
 import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.core.profile.ProfileManager;
@@ -43,6 +46,8 @@ import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 
@@ -140,10 +145,15 @@ public class OAuth20AuthorizeEndpointController extends BaseOAuth20Controller {
         }
 
         final ModelAndView mv = this.consentApprovalViewResolver.resolve(context, registeredService);
+        //跳转到授权页面
         if (!mv.isEmpty() && mv.hasView()) {
+        	Optional<CasProfile> opt = manager.get(true);
+        	CasProfile p = opt.get();
+        	Principal principal = new DefaultPrincipalFactory().createPrincipal(p.getId(), new HashMap<String,Object>());
+    		request.setAttribute("principal", principal);
             return mv;
         }
-
+        //跳转到callback页面
         return redirectToCallbackRedirectUrl(manager, registeredService, context, clientId);
     }
 

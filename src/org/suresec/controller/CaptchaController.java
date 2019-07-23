@@ -12,10 +12,12 @@ import javax.servlet.http.HttpSession;
 
 import org.apereo.cas.authentication.principal.DefaultPrincipalFactory;
 import org.apereo.cas.authentication.principal.Principal;
-import org.apereo.cas.authentication.principal.SimplePrincipal;
-import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.apereo.cas.support.oauth.OAuth20Constants;
+import org.apereo.cas.util.Pac4jUtils;
+import org.pac4j.core.context.J2EContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.suresec.util.CaptchaUtil;
 
 /**
@@ -69,6 +71,13 @@ public class CaptchaController {
     	request.setAttribute("principal", principal);
     	return "casGenericSuccessView";
     	//return "/login";
+    }
+    @RequestMapping("/oauth2RedirectToClient")
+    @ResponseBody
+    public String oauth2RedirectToClient(String callbackUrl,String clientId,HttpServletRequest request, HttpServletResponse response) {
+    	final J2EContext ctx = Pac4jUtils.getPac4jJ2EContext(request, response);
+    	ctx.getSessionStore().set(ctx, OAuth20Constants.BYPASS_APPROVAL_PROMPT+clientId, Boolean.TRUE);//modify by wcc 20190723  +clientId确保每个客户端都能出现授权页面；
+    	return callbackUrl;
     }
    
 }

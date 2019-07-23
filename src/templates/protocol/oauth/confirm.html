@@ -1,21 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout2}">
 
 <head>
     <title th:text="#{cas.oauth.confirm.pagetitle}"></title>
 </head>
 
 <body id="cas">
-<div layout:fragment="content">
-    <div class="alert alert-success">
-        <h2 th:text="#{screen.oauth.confirm.header}"/>
-        <p th:text="#{screen.oauth.confirm.message(${serviceName})}"/>
-        <p>
-            <a class="btn btn-submit" id="allow" name="allow"
-               th:href="@{${callbackUrl}}"
-               th:text="#{screen.oauth.confirm.allow}"/>
-        </p>
-    </div>
-</div>
+	<div layout:fragment="content">
+		<div class="wrapper">
+			<div class="content-wrapper" id="context_div">
+				<div class="container">
+					<div class="row" style="background-color: white;" id="list_div">
+						<div class="panel panel-default" id="panel"
+							style="margin-bottom: 0px;">
+							<div class="panel-heading" style="background-color: #D9EDF7; color: #31708F;">
+								<h3 class="panel-title" th:text="#{screen.oauth.confirm.header}"> </h3>
+							</div>
+							<div class="panel-body" style="min-height: 400px; padding-top: 5px">
+								<p th:text="#{screen.oauth.confirm.message(${serviceName})}" />
+								<p>
+									<a class="btn btn-submit" id="allow" name="allow" href="#" th:text="#{screen.oauth.confirm.allow}" /> 
+									<input type="hidden" th:value="${callbackUrl}" id="callbackUrl">
+									<input type="hidden" th:value="${clientId}" id="clientId">
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" th:inline="javascript">
+		$( document ).ready(function() {
+		    $("#allow").click(function () {
+		    	//获取当前网址，如： http://localhost:8088/test/test.jsp
+		        var curPath=window.document.location.href;
+		    	//获取主机地址之后的目录，如： test/test.jsp
+		        var pathName=window.document.location.pathname;
+		        //获取带"/"的项目名，如：/test
+		        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
+		        
+		    	var callbackUrl = $("#callbackUrl").val();
+		    	var clientId = $("#clientId").val();
+		        
+				var datas = {'callbackUrl':callbackUrl,'clientId':clientId};
+				$.ajax({
+			        type: "GET",
+			        async: false,
+			        cache: false,
+			        url: projectName+"/oauth2RedirectToClient",
+			        data:datas,
+			        success: function (msg) {
+			            $("#allow").attr("href",msg);
+			        },
+			        error: function (msg) {
+			            console.info("请求Error");
+			        }
+			    });
+		    });
+		});
+	</script>	
+	</div>
+
 </body>
 </html>

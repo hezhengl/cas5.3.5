@@ -1,15 +1,16 @@
 package org.apereo.cas.support.oauth.web.views;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.apereo.cas.support.oauth.OAuth20Constants;
 import org.apereo.cas.support.oauth.services.OAuthRegisteredService;
 import org.pac4j.core.context.J2EContext;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * This is {@link OAuth20ConsentApprovalViewResolver}.
@@ -28,7 +29,8 @@ public class OAuth20ConsentApprovalViewResolver implements ConsentApprovalViewRe
 
     @Override
     public ModelAndView resolve(final J2EContext context, final OAuthRegisteredService service) {
-        final Object bypassApprovalParameter = context.getSessionStore().get(context, OAuth20Constants.BYPASS_APPROVAL_PROMPT);
+    	final String clientId = context.getRequestParameter(OAuth20Constants.CLIENT_ID);
+        final Object bypassApprovalParameter = context.getSessionStore().get(context, OAuth20Constants.BYPASS_APPROVAL_PROMPT+clientId);//modify by wcc 20190723  +clientId确保每个客户端都能出现授权页面；
         LOGGER.debug("Bypassing approval prompt for service [{}]: [{}]", service, bypassApprovalParameter);
 
         /*
@@ -60,7 +62,9 @@ public class OAuth20ConsentApprovalViewResolver implements ConsentApprovalViewRe
      */
     protected ModelAndView redirectToApproveView(final J2EContext ctx, final OAuthRegisteredService svc) {
         final String callbackUrl = ctx.getFullRequestURL();
-        ctx.getSessionStore().set(ctx, OAuth20Constants.BYPASS_APPROVAL_PROMPT, Boolean.TRUE);
+    	final String clientId = ctx.getRequestParameter(OAuth20Constants.CLIENT_ID);
+        //ctx.getSessionStore().set(ctx, OAuth20Constants.BYPASS_APPROVAL_PROMPT, Boolean.TRUE);//modify取消设置，在出现授权页面，点击允许后再设置
+    	//ctx.getSessionStore().set(ctx, OAuth20Constants.BYPASS_APPROVAL_PROMPT+clientId, Boolean.TRUE);//modify by wcc 20190723  +clientId确保每个客户端都能出现授权页面；
         LOGGER.debug("callbackUrl: [{}]", callbackUrl);
 
         final Map<String, Object> model = new HashMap<>();
@@ -68,7 +72,8 @@ public class OAuth20ConsentApprovalViewResolver implements ConsentApprovalViewRe
         model.put("callbackUrl", callbackUrl);
         model.put("serviceName", svc.getName());
         model.put("deniedApprovalUrl", svc.getAccessStrategy().getUnauthorizedRedirectUrl());
-
+        model.put("clientId", clientId);//add by wcc 20190723  +clientId
+        
         prepareApprovalViewModel(model, ctx, svc);
         return getApprovalModelAndView(model);
     }
